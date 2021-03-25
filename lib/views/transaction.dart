@@ -10,14 +10,22 @@ class TransactionPage extends StatelessWidget {
   final TransactionController controller = Get.put(TransactionController());
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<TransactionController>(
-      builder: (controller) => ListView.builder(
-        shrinkWrap: true,
-        itemCount: controller.listTransactionOnDisplay.length + 1,
-        itemBuilder: (BuildContext context, int index) {
-          return index == 0 ? searchBar() : transactionItem(index - 1);
-        },
-      ),
+    return Obx(
+      () {
+        if (controller.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return GetBuilder<TransactionController>(builder: (controller) {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: controller.listTransactionOnDisplay.length + 1,
+              itemBuilder: (BuildContext context, int index) {
+                return index == 0 ? searchBar() : transactionItem(index - 1);
+              },
+            );
+          });
+        }
+      },
     );
   }
 
@@ -86,10 +94,25 @@ class TransactionPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${controller.listTransactionOnDisplay[index].customerName}"
-                    .toUpperCase(),
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${controller.listTransactionOnDisplay[index].customerName}"
+                        .toUpperCase(),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Ngày mua: " +
+                        DateFormat('dd/MM/yyyy').format(controller
+                            .listTransactionOnDisplay[index].createDate),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 10,
@@ -98,19 +121,6 @@ class TransactionPage extends StatelessWidget {
                   NumberFormat("#,###").format(
                       controller.listTransactionOnDisplay[index].totalPrice) +
                   " VNĐ"),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                "Ngày mua: " +
-                    DateFormat('dd/MM/yyyy').format(
-                        controller.listTransactionOnDisplay[index].createDate),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
               SizedBox(
                 height: 15,
               ),
@@ -127,7 +137,8 @@ class TransactionPage extends StatelessWidget {
                     style: TextStyle(color: Colors.green[400]),
                   ),
                   Text("100,000 VNĐ",
-                      style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black87)),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black87)),
                 ],
               ),
               Row(
@@ -135,7 +146,8 @@ class TransactionPage extends StatelessWidget {
                 children: [
                   Text("Còn nợ: ", style: TextStyle(color: Colors.red[400])),
                   Text("150,000 VNĐ",
-                      style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black87)),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black87)),
                 ],
               ),
             ],
