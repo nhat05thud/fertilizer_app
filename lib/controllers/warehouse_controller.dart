@@ -6,8 +6,17 @@ class WareHouseController extends GetxController {
   var isLoading = true.obs;
   var listWareHouse = <WareHouseModel>[];
   var listWareHouseDisplay = <WareHouseModel>[];
-  
   var wareHouseModel = new WareHouseModel();
+  var choiceList = <WareHouseModel>[];
+
+  void choiceProducts(int index){
+    if (choiceList.contains(listWareHouseDisplay[index])) {
+      choiceList.remove(listWareHouseDisplay[index]);
+    } else {
+      choiceList.add(listWareHouseDisplay[index]);
+    }
+    update();
+  }
 
   void searchListWareHouse(String text) {
     text = text.toLowerCase();

@@ -122,14 +122,11 @@ class WareHousePage extends StatelessWidget {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Tên sản phẩm: " +
-                    "${controller.listWareHouseDisplay[index].name}"
-                        .toUpperCase(),
+              Text("${controller.listWareHouseDisplay[index].name}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
-                height: 5,
+                height: 10,
               ),
               Row(
                 children: [
@@ -143,7 +140,7 @@ class WareHousePage extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 5,
+                height: 7,
               ),
               Row(
                 children: [
@@ -157,18 +154,20 @@ class WareHousePage extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 5,
+                height: 7,
               ),
-              Column(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Mô tả: ",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    "${controller.listWareHouseDisplay[index].description}",
-                    maxLines: null,
+                  Flexible(
+                    child: Text(
+                      "${controller.listWareHouseDisplay[index].description}",
+                      maxLines: null,
+                    ),
                   ),
                 ],
               ),

@@ -2,7 +2,7 @@ import 'package:fertilizer_app/controllers/dashboard_controller.dart';
 import 'package:fertilizer_app/views/customer.dart';
 import 'package:fertilizer_app/views/home.dart';
 import 'package:fertilizer_app/views/transaction.dart';
-import 'package:fertilizer_app/views/transaction/addnew_transaction.dart';
+import 'package:fertilizer_app/views/transaction/addnew/addnew_transaction_step1.dart';
 import 'package:fertilizer_app/views/warehouse.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class DashBoard extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.to(AddNewTransaction());
+            Get.to(AddNewTransactionStep1());
           },
           backgroundColor: Colors.teal,
           child: Icon(CupertinoIcons.add),

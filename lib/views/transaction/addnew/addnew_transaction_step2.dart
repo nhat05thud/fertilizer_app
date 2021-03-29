@@ -1,36 +1,50 @@
-import 'package:fertilizer_app/controllers/customer_controller.dart';
-import 'package:fertilizer_app/views/customer/addnew_customer.dart';
+import 'package:fertilizer_app/controllers/addnew_transaction_controller.dart';
+import 'package:fertilizer_app/controllers/warehouse_controller.dart';
+import 'package:fertilizer_app/models/warehouse_model.dart';
+import 'package:fertilizer_app/views/transaction/addnew/addnew_transaction_step3.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class CustomerPage extends StatelessWidget {
-  final CustomerController controller = Get.put(CustomerController());
+class AddTransactionStep2 extends StatelessWidget {
+  final AddNewTransactionController controller =
+      Get.put(AddNewTransactionController());
+  final WareHouseController warehouseController =
+      Get.put(WareHouseController());
+
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (controller.isLoading.value) {
-        return Center(child: CircularProgressIndicator());
-      } else {
-        return GetBuilder<CustomerController>(builder: (controller) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              controller.fetchCustomers();
-            },
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.listCustomerDisplay.length + 1,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Chọn sản phẩm"),
+        backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            warehouseController.choiceList = <WareHouseModel>[];
+            Get.back();
+          },
+        ),
+      ),
+      body: Obx(() {
+        if (warehouseController.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return GetBuilder<WareHouseController>(builder: (controller) {
+            return ListView.builder(
+              itemCount: warehouseController.listWareHouseDisplay.length + 1,
               itemBuilder: (BuildContext context, int index) {
-                return index == 0 ? searchBar() : customerItem(index - 1);
+                return index == 0 ? searchBar() : wareHouseItem(index - 1);
               },
-            ),
-          );
-        });
-      }
-    });
+            );
+          });
+        }
+      }),
+    );
   }
 
-   Widget searchBar() {
+  Widget searchBar() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -65,7 +79,7 @@ class CustomerPage extends StatelessWidget {
                   ),
                 ),
                 onChanged: (text) {
-                  controller.searchListCustomer(text);
+                  warehouseController.searchListWareHouse(text);
                 },
               ),
             ),
@@ -76,9 +90,9 @@ class CustomerPage extends StatelessWidget {
               height: 45,
               child: TextButton(
                 onPressed: () {
-                  Get.to(AddNewCustomer());
+                  Get.to(AddTransactionStep3());
                 },
-                child: Text("Thêm mới"),
+                child: Text("Chọn"),
                 style: TextButton.styleFrom(
                   primary: Colors.white,
                   backgroundColor: Colors.teal,
@@ -92,10 +106,10 @@ class CustomerPage extends StatelessWidget {
     );
   }
 
-  Widget customerItem(int index) {
+  Widget wareHouseItem(int index) {
     return GestureDetector(
       onTap: () {
-        //Get.to(TransactionDetail(), arguments: index);
+        warehouseController.choiceProducts(index);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -114,51 +128,39 @@ class CustomerPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
             ),
             child: Icon(
-              Icons.person,
+              CupertinoIcons.cube_fill,
               color: Colors.grey,
             ),
           ),
           title: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${controller.listCustomerDisplay[index].name}",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-
-              Text("Địa chỉ: " +
-                "${controller.listCustomerDisplay[index].address != null ? controller.listCustomerDisplay[index].address : "chưa nhập địa chỉ"}",
-                style: TextStyle(fontStyle: FontStyle.italic),
+                "${warehouseController.listWareHouseDisplay[index].name}",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 10,
               ),
-            ],
-          ),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Còn nợ: ", style: TextStyle(color: Colors.red[400])),
                   Text(
-                    NumberFormat("#,###").format(
-                            controller.listCustomerDisplay[index].totalDebt) +
-                        " VNĐ",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                    "Đơn giá: ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    NumberFormat("#,###").format(warehouseController
+                            .listWareHouseDisplay[index].price) +
+                        " VNĐ / 1 sản phẩm",
                   ),
                 ],
               ),
             ],
           ),
+          trailing: warehouseController.choiceList
+                  .contains(warehouseController.listWareHouseDisplay[index])
+              ? Icon(Icons.check)
+              : null,
         ),
       ),
     );

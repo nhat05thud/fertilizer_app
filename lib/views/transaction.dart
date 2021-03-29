@@ -98,8 +98,7 @@ class TransactionPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${controller.listTransactionOnDisplay[index].customerName}"
-                        .toUpperCase(),
+                    "${controller.listTransactionOnDisplay[index].customerName}",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(
