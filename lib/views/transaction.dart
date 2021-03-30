@@ -10,23 +10,24 @@ class TransactionPage extends StatelessWidget {
   final TransactionController controller = Get.put(TransactionController());
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () {
-        if (controller.isLoading.value) {
+    return GetBuilder<TransactionController>(builder: (controller) {
+      if (controller.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         } else {
-          return GetBuilder<TransactionController>(builder: (controller) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.listTransactionOnDisplay.length + 1,
-              itemBuilder: (BuildContext context, int index) {
-                return index == 0 ? searchBar() : transactionItem(index - 1);
-              },
-            );
-          });
+          return RefreshIndicator(
+            onRefresh: () async {
+              controller.fetchTransactions();
+            },
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.listTransactionOnDisplay.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return index == 0 ? searchBar() : transactionItem(index - 1);
+                },
+              ),
+          );
         }
-      },
-    );
+    });
   }
 
   Widget searchBar() {
@@ -125,32 +126,32 @@ class TransactionPage extends StatelessWidget {
               ),
             ],
           ),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Đã trả: ",
-                    style: TextStyle(color: Colors.green[400]),
-                  ),
-                  Text("100,000 VNĐ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black87)),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Còn nợ: ", style: TextStyle(color: Colors.red[400])),
-                  Text("150,000 VNĐ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black87)),
-                ],
-              ),
-            ],
-          ),
+          // subtitle: Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Text(
+          //           "Đã trả: ",
+          //           style: TextStyle(color: Colors.green[400]),
+          //         ),
+          //         Text("100,000 VNĐ",
+          //             style: TextStyle(
+          //                 fontWeight: FontWeight.bold, color: Colors.black87)),
+          //       ],
+          //     ),
+          //     Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Text("Còn nợ: ", style: TextStyle(color: Colors.red[400])),
+          //         Text("150,000 VNĐ",
+          //             style: TextStyle(
+          //                 fontWeight: FontWeight.bold, color: Colors.black87)),
+          //       ],
+          //     ),
+          //   ],
+          // ),
         ),
       ),
     );

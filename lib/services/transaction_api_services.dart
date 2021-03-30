@@ -9,11 +9,34 @@ class TransactionApi {
   Future<List<TransactionModel>> fetchTransactions() async {
     var responsive = await client.get(Uri.parse("https://60498b66fb5dcc001796a31e.mockapi.io/Transaction"), headers: {"Accept": "application/json",});
     if (responsive.statusCode == 200) {
-      return transactionModelFromJson(utf8.decode(responsive.bodyBytes));
+      return listTransactionModelFromJson(utf8.decode(responsive.bodyBytes));
     }
     else{
       print("cannot connect to server");
       return null;
+    }
+  }
+  Future<TransactionModel> createTransaction(TransactionModel model) async {
+    var request = await client.post(
+      Uri.parse("https://60498b66fb5dcc001796a31e.mockapi.io/Transaction"),
+      headers: {"Content-Type": "application/json; charset=UTF-8"},
+      body: jsonEncode(<String, dynamic>{
+        'customerName': model.customerName,
+        'totalPrice': model.productTransactions.map((e) => e.price * e.quantity).fold(0, (prev, amount) => prev + amount),
+        'isDebt': false,
+        'createDate': DateTime.now().toString(),
+        'ProductTransactions': model.productTransactions
+      }),
+    );
+    print(request.statusCode);
+    if (request.statusCode == 200 || request.statusCode == 201) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+      return transactionModelFromJson(utf8.decode(request.bodyBytes));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to add customer.');
     }
   }
 }

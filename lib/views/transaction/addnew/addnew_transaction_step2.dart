@@ -1,6 +1,6 @@
 import 'package:fertilizer_app/controllers/addnew_transaction_controller.dart';
 import 'package:fertilizer_app/controllers/warehouse_controller.dart';
-import 'package:fertilizer_app/models/warehouse_model.dart';
+import 'package:fertilizer_app/models/transaction_model.dart';
 import 'package:fertilizer_app/views/transaction/addnew/addnew_transaction_step3.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class AddTransactionStep2 extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            warehouseController.choiceList = <WareHouseModel>[];
+            controller.transactionModel.value.productTransactions = <ProductTransaction>[];
             Get.back();
           },
         ),
@@ -31,7 +31,7 @@ class AddTransactionStep2 extends StatelessWidget {
         if (warehouseController.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         } else {
-          return GetBuilder<WareHouseController>(builder: (controller) {
+          return GetBuilder<AddNewTransactionController>(builder: (controller) {
             return ListView.builder(
               itemCount: warehouseController.listWareHouseDisplay.length + 1,
               itemBuilder: (BuildContext context, int index) {
@@ -90,12 +90,14 @@ class AddTransactionStep2 extends StatelessWidget {
               height: 45,
               child: TextButton(
                 onPressed: () {
-                  Get.to(AddTransactionStep3());
+                  if(controller.transactionModel.value.productTransactions.length > 0){
+                    Get.to(AddTransactionStep3());
+                  }
                 },
                 child: Text("Chọn"),
                 style: TextButton.styleFrom(
                   primary: Colors.white,
-                  backgroundColor: Colors.teal,
+                  backgroundColor: controller.transactionModel.value.productTransactions.length > 0 ? Colors.teal : Colors.teal[300],
                   onSurface: Colors.grey,
                 ),
               ),
@@ -109,7 +111,7 @@ class AddTransactionStep2 extends StatelessWidget {
   Widget wareHouseItem(int index) {
     return GestureDetector(
       onTap: () {
-        warehouseController.choiceProducts(index);
+        controller.addListProductsToCart(warehouseController.listWareHouseDisplay[index]);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -157,8 +159,7 @@ class AddTransactionStep2 extends StatelessWidget {
               ),
             ],
           ),
-          trailing: warehouseController.choiceList
-                  .contains(warehouseController.listWareHouseDisplay[index])
+          trailing: controller.transactionModel.value.productTransactions.where((element) => element.productName == warehouseController.listWareHouseDisplay[index].name).length > 0
               ? Icon(Icons.check)
               : null,
         ),

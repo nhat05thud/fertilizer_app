@@ -74,7 +74,7 @@ class AddNewTransactionStep1 extends StatelessWidget {
   Widget customerItem(int index) {
     return GestureDetector(
       onTap: () {
-        controller.transactionModel.customerName = customerController.listCustomerDisplay[index].name;
+        controller.transactionModel.value.customerName = customerController.listCustomerDisplay[index].name;
         Get.to(AddTransactionStep2());
       },
       child: Container(

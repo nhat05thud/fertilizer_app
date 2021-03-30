@@ -26,6 +26,7 @@ class TransactionController extends GetxController {
       var transactions = await TransactionApi().fetchTransactions();
       if (transactions != null) {
         listTransaction = listTransactionOnDisplay = transactions.reversed.toList();
+        update();
       }
     } finally {
       isLoading(false);
