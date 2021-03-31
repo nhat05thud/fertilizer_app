@@ -1,8 +1,11 @@
+import 'package:fertilizer_app/controllers/dashboard_controller.dart';
 import 'package:fertilizer_app/models/transaction_model.dart';
 import 'package:fertilizer_app/services/transaction_api_services.dart';
+import 'package:fertilizer_app/views/dashboard.dart';
 import 'package:get/get.dart';
 
 class TransactionController extends GetxController {
+  final DashBoardController dashBoardController = Get.put(DashBoardController());
   var isLoading = true.obs;
   var listTransaction = <TransactionModel>[];
   var listTransactionOnDisplay = <TransactionModel>[];
@@ -29,6 +32,18 @@ class TransactionController extends GetxController {
         update();
       }
     } finally {
+      isLoading(false);
+    }
+  }
+
+  void createTransaction(TransactionModel model) async{
+    try {
+      isLoading(true);
+      await TransactionApi().createTransaction(model);
+    } finally {
+      Get.to(DashBoard());
+      dashBoardController.tabIndex = 1;
+      fetchTransactions();
       isLoading(false);
     }
   }

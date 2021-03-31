@@ -8,10 +8,6 @@ class CustomerPage extends StatelessWidget {
   final CustomerController controller = Get.put(CustomerController());
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (controller.isLoading.value) {
-        return Center(child: CircularProgressIndicator());
-      } else {
         return GetBuilder<CustomerController>(builder: (controller) {
           return RefreshIndicator(
             onRefresh: () async {
@@ -26,8 +22,6 @@ class CustomerPage extends StatelessWidget {
             ),
           );
         });
-      }
-    });
   }
 
    Widget searchBar() {

@@ -16,23 +16,21 @@ class AddNewTransactionStep1 extends StatelessWidget {
         title: Text("Chọn người mua"),
         backgroundColor: Colors.teal,
       ),
-      body: Obx(() {
-        if(customerController.isLoading.value){
-          return Center(child: CircularProgressIndicator());
-        }
-        else{
-          return GetBuilder<AddNewTransactionController>(
-          builder: (controller){
-            return ListView.builder(
-              itemCount: customerController.listCustomerDisplay.length + 1,
-              itemBuilder: (BuildContext context, int index) {
-                return index == 0 ? searchBar() : customerItem(index - 1);
-              },
-            );
+      body: GetBuilder<AddNewTransactionController>(
+          builder: (controller) {
+            if(customerController.isLoading.value){
+              return Center(child: CircularProgressIndicator());
+            }
+            else{
+              return ListView.builder(
+                itemCount: customerController.listCustomerDisplay.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return index == 0 ? searchBar() : customerItem(index - 1);
+                },
+              );
+            }
           },
-        );
-        }
-      }),
+        ),
     );
   }
 
@@ -74,7 +72,7 @@ class AddNewTransactionStep1 extends StatelessWidget {
   Widget customerItem(int index) {
     return GestureDetector(
       onTap: () {
-        controller.transactionModel.value.customerName = customerController.listCustomerDisplay[index].name;
+        controller.transactionModel.customerName = customerController.listCustomerDisplay[index].name;
         Get.to(AddTransactionStep2());
       },
       child: Container(

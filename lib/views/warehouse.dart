@@ -9,28 +9,24 @@ class WareHousePage extends StatelessWidget {
   final WareHouseController controller = Get.put(WareHouseController());
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () {
-        if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          return GetBuilder<WareHouseController>(builder: (controller) {
-            return RefreshIndicator(
-              onRefresh: () async {
-                controller.fetchWarehouses();
-              },
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: controller.listWareHouseDisplay.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return index == 0 ? searchBar() : wareHouseItem(index - 1);
-                },
-              ),
-            );
-          });
-        }
-      },
-    );
+    return GetBuilder<WareHouseController>(builder: (controller) {
+      if (controller.isLoading.value) {
+        return Center(child: CircularProgressIndicator());
+      } else {
+        return RefreshIndicator(
+          onRefresh: () async {
+            controller.fetchWarehouses();
+          },
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: controller.listWareHouseDisplay.length + 1,
+            itemBuilder: (BuildContext context, int index) {
+              return index == 0 ? searchBar() : wareHouseItem(index - 1);
+            },
+          ),
+        );
+      }
+    });
   }
 
   Widget searchBar() {
@@ -122,7 +118,8 @@ class WareHousePage extends StatelessWidget {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${controller.listWareHouseDisplay[index].name}",
+              Text(
+                "${controller.listWareHouseDisplay[index].name}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -134,8 +131,10 @@ class WareHousePage extends StatelessWidget {
                     "Đơn giá: ",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    NumberFormat("#,###").format(controller.listWareHouseDisplay[index].price) + " VNĐ / 1 sản phẩm",
+                  Text(controller.listWareHouseDisplay[index].price != null ?
+                    NumberFormat("#,###").format(
+                            controller.listWareHouseDisplay[index].price) +
+                        " VNĐ / 1 sản phẩm" : "Chưa nhập giá tiền",
                   ),
                 ],
               ),

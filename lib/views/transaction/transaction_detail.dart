@@ -62,40 +62,40 @@ class TransactionDetail extends StatelessWidget {
             height: 20,
           ),
           Text("Tổng tiền: " +
-              "${controller.listTransactionOnDisplay[index].totalPrice}" +
+              "${ NumberFormat("#,###").format(controller.listTransactionOnDisplay[index].totalPrice)}" +
               " VNĐ"),
-          SizedBox(
-            height: 7,
-          ),
-          Row(
-            children: [
-              Text("Đã trả: "),
-              Text(
-                "0",
-                style: TextStyle(
-                    color: Colors.green[500],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-              Text(" VNĐ"),
-            ],
-          ),
-          SizedBox(
-            height: 7,
-          ),
-          Row(
-            children: [
-              Text("Nợ: "),
-              Text(
-                "0",
-                style: TextStyle(
-                    color: Colors.red[500],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-              Text(" VNĐ"),
-            ],
-          ),
+          // SizedBox(
+          //   height: 7,
+          // ),
+          // Row(
+          //   children: [
+          //     Text("Đã trả: "),
+          //     Text(
+          //       "0",
+          //       style: TextStyle(
+          //           color: Colors.green[500],
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 16),
+          //     ),
+          //     Text(" VNĐ"),
+          //   ],
+          // ),
+          // SizedBox(
+          //   height: 7,
+          // ),
+          // Row(
+          //   children: [
+          //     Text("Nợ: "),
+          //     Text(
+          //       "0",
+          //       style: TextStyle(
+          //           color: Colors.red[500],
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 16),
+          //     ),
+          //     Text(" VNĐ"),
+          //   ],
+          // ),
           SizedBox(
             height: 20,
           ),

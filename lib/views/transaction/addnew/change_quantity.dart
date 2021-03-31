@@ -32,7 +32,7 @@ class ChangeQuantity extends StatelessWidget {
                     ),
                     SizedBox(width: 10,),
                     Text(
-                      "${controller.transactionModel.value.productTransactions[Get.arguments].quantity}",
+                      "${controller.transactionModel.productTransactions[Get.arguments].quantity}",
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(width: 10,),

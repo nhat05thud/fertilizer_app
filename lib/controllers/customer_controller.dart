@@ -1,8 +1,11 @@
+import 'package:fertilizer_app/controllers/dashboard_controller.dart';
 import 'package:fertilizer_app/models/customer_model.dart';
 import 'package:fertilizer_app/services/customer_api_services.dart';
+import 'package:fertilizer_app/views/dashboard.dart';
 import 'package:get/get.dart';
 
 class CustomerController extends GetxController {
+  final DashBoardController dashBoardController = Get.put(DashBoardController());
   var isLoading = true.obs;
   var listCustomer = <CustomerModel>[];
   var listCustomerDisplay = <CustomerModel>[];
@@ -35,7 +38,8 @@ class CustomerController extends GetxController {
       isLoading(true);
       await CustomerApi().createCustomer(model);
     } finally {
-      Get.back();
+      Get.to(DashBoard());
+      dashBoardController.tabIndex = 3;
       fetchCustomers();
       isLoading(false);
     }
