@@ -1,4 +1,4 @@
-import 'package:fertilizer_app/components/LoadingIndicator.dart';
+import 'package:fertilizer_app/components/loadingIndicator.dart';
 import 'package:fertilizer_app/controllers/addnew_transaction_controller.dart';
 import 'package:fertilizer_app/controllers/transaction_controller.dart';
 import 'package:fertilizer_app/views/transaction/addnew/change_quantity.dart';

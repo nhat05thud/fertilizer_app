@@ -1,4 +1,4 @@
-import 'package:fertilizer_app/components/LoadingIndicator.dart';
+import 'package:fertilizer_app/components/loadingIndicator.dart';
 import 'package:fertilizer_app/controllers/customer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
