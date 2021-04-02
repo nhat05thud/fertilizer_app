@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.rightToLeft,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Color(0xFFFFFFFF),
       ),
       debugShowCheckedModeBanner: false,
       home: DashBoard(),

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fertilizer_app/components/search.dart';
 import 'package:fertilizer_app/controllers/transaction_controller.dart';
 import 'package:fertilizer_app/views/transaction/transaction_detail.dart';
 import 'package:flutter/material.dart';
@@ -32,36 +33,8 @@ class TransactionPage extends StatelessWidget {
 
   Widget searchBar() {
     return Padding(
-      padding: EdgeInsets.all(8),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Tìm kiếm...',
-          hintStyle: TextStyle(fontSize: 16),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
-          filled: true,
-          fillColor: Colors.grey[100],
-          contentPadding: EdgeInsets.only(
-            right: 30,
-          ),
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(right: 16.0, left: 24.0),
-            child: Icon(
-              Icons.search,
-              color: Colors.black,
-              size: 24,
-            ),
-          ),
-        ),
-        onChanged: (text) {
-          controller.searchListTransaction(text);
-        },
-      ),
+      padding: const EdgeInsets.all(8.0),
+      child: SearchBar(onChanged: controller.searchListTransaction,),
     );
   }
 

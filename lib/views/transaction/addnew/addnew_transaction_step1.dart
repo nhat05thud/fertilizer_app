@@ -1,3 +1,4 @@
+import 'package:fertilizer_app/components/search.dart';
 import 'package:fertilizer_app/controllers/addnew_transaction_controller.dart';
 import 'package:fertilizer_app/controllers/customer_controller.dart';
 import 'package:fertilizer_app/views/transaction/addnew/addnew_transaction_step2.dart';
@@ -36,36 +37,8 @@ class AddNewTransactionStep1 extends StatelessWidget {
 
   Widget searchBar() {
     return Padding(
-      padding: EdgeInsets.all(8),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Tìm kiếm...',
-          hintStyle: TextStyle(fontSize: 16),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
-          filled: true,
-          fillColor: Colors.grey[100],
-          contentPadding: EdgeInsets.only(
-            right: 30,
-          ),
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(right: 16.0, left: 24.0),
-            child: Icon(
-              Icons.search,
-              color: Colors.black,
-              size: 24,
-            ),
-          ),
-        ),
-        onChanged: (text) {
-          customerController.searchListCustomer(text);
-        },
-      ),
+      padding: const EdgeInsets.all(8.0),
+      child: SearchBar(onChanged: customerController.searchListCustomer,),
     );
   }
 
@@ -106,7 +79,7 @@ class AddNewTransactionStep1 extends StatelessWidget {
               ),
               Text("Địa chỉ: " +
                 "${customerController.listCustomerDisplay[index].address}",
-                style: TextStyle(fontStyle: FontStyle.italic),
+                style: TextStyle(),
               ),
             ],
           ),

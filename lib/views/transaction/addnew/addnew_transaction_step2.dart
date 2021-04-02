@@ -1,3 +1,4 @@
+import 'package:fertilizer_app/components/search.dart';
 import 'package:fertilizer_app/controllers/addnew_transaction_controller.dart';
 import 'package:fertilizer_app/controllers/warehouse_controller.dart';
 import 'package:fertilizer_app/models/transaction_model.dart';
@@ -50,38 +51,8 @@ class AddTransactionStep2 extends StatelessWidget {
         children: [
           Expanded(
             flex: 8,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Tìm kiếm...',
-                  hintStyle: TextStyle(fontSize: 16),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide(
-                      width: 0,
-                      style: BorderStyle.none,
-                    ),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                  contentPadding: EdgeInsets.only(
-                    right: 30,
-                  ),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.only(right: 16.0, left: 24.0),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.black,
-                      size: 24,
-                    ),
-                  ),
-                ),
-                onChanged: (text) {
-                  warehouseController.searchListWareHouse(text);
-                },
-              ),
-            ),
+            child: SearchBar(onChanged: 
+                  warehouseController.searchListWareHouse,)
           ),
           Expanded(
             flex: 2,
